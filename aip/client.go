@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/swanwish/baidu-bce-sdk/common"
 	"github.com/swanwish/go-common/logs"
 	"github.com/swanwish/go-common/utils"
 )
@@ -53,7 +52,7 @@ func NewClient(clientId, clientSecret string) *Client {
 func (client *Client) GetAccessToken() (string, error) {
 	if client.ClientId == "" || client.ClientSecret == "" {
 		logs.Errorf("The client id or client secret not specified")
-		return "", common.ErrInvalidParameter
+		return "", ErrInvalidParameter
 	}
 	if client.Token != nil && client.Token.Valid() {
 		return client.Token.AccessToken, nil
@@ -78,7 +77,7 @@ func (client *Client) GetAccessToken() (string, error) {
 	}
 	if status != http.StatusOK {
 		logs.Errorf("Failed to get token, the status code is %d", status)
-		return "", common.ErrInvalidStatus
+		return "", ErrInvalidStatus
 	}
 	token := Token{}
 	err = json.Unmarshal(content, &token)
@@ -94,7 +93,7 @@ func (client *Client) GetAccessToken() (string, error) {
 	if token.Valid() {
 		return token.AccessToken, err
 	}
-	return "", common.NewErrorWithCode(common.ERR_CODE_INVALID_TOKEN, token.ErrorDescription)
+	return "", ErrInvalidToken
 }
 
 func (token Token) Valid() bool {
