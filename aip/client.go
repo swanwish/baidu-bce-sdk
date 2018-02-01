@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/url"
-
 	"time"
 
 	"github.com/swanwish/baidu-bce-sdk/common"
@@ -21,7 +20,7 @@ const (
 )
 
 type TokenDao interface {
-	GetToken() (Token, error)
+	GetToken(clientId, clientSecret string) (Token, error)
 	SaveToken(clientId, clientSecret string, token Token) error
 }
 
@@ -60,7 +59,7 @@ func (client *Client) GetAccessToken() (string, error) {
 		return client.Token.AccessToken, nil
 	}
 	if client.TokenDao != nil {
-		token, err := client.TokenDao.GetToken()
+		token, err := client.TokenDao.GetToken(client.ClientId, client.ClientSecret)
 		if err != nil {
 			logs.Errorf("Failed to get token from token dao, the error is %#v", err)
 		} else {
