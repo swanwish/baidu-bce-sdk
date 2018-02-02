@@ -73,7 +73,6 @@ func (client *Client) CheckPornImg(imgUrl string) (ImgCensorResponse, error) {
 		logs.Errorf("Failed to marshal param, the error is %#v", err)
 		return imgCensorResponse, err
 	}
-	imgCensorResponse.Text = string(body)
 	status, content, err := utils.PostUrlContent(checkUrl, body, nil)
 	if err != nil {
 		logs.Errorf("Failed to check image, the error is %#v", err)
@@ -87,5 +86,6 @@ func (client *Client) CheckPornImg(imgUrl string) (ImgCensorResponse, error) {
 		logs.Errorf("Failed to unmarshal img censor response")
 		return imgCensorResponse, err
 	}
+	imgCensorResponse.Text = string(content)
 	return imgCensorResponse, nil
 }
