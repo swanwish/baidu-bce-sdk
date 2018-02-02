@@ -5,3 +5,7 @@ const (
 	CONCLUSION_SEXY   = "性感"
 	CONCLUSION_NORMAL = "正常"
 )
+
+const (
+	TOKEN_PREFETCH_SECONDS = 30
+)

@@ -33,6 +33,7 @@ type ImgCensorResponse struct {
 	LogId     int64           `json:"log_id"`
 	ErrorCode string          `json:"error_code"`
 	ErrorMsg  string          `json:"error_msg"`
+	Text      string          `json:"text"`
 }
 
 type ImgCensorResult struct {
@@ -72,7 +73,7 @@ func (client *Client) CheckPornImg(imgUrl string) (ImgCensorResponse, error) {
 		logs.Errorf("Failed to marshal param, the error is %#v", err)
 		return imgCensorResponse, err
 	}
-	logs.Debugf("The body is %s", string(body))
+	imgCensorResponse.Text = string(body)
 	status, content, err := utils.PostUrlContent(checkUrl, body, nil)
 	if err != nil {
 		logs.Errorf("Failed to check image, the error is %#v", err)
